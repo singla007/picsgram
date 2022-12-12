@@ -11,7 +11,8 @@ model Post {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   description String
-  caption     String
+  caption     String      
+  imageUrl    String
   createdBy    User?    @relation(fields: [createdById], references: [id])
   createdById  String?
   likes       Like[]

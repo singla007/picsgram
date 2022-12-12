@@ -30,11 +30,12 @@ const SIGNUP_MUTATION = gql`
             password: $password
             name: $name
         ) {
-            token
-            user{
-              name
-              id
-            }
+          token
+          user{
+            name,
+            id
+            
+          }
         }
     }
 `;
@@ -84,13 +85,6 @@ export default function SignUp() {
     else {
       setButtonStatus(true)
     }
-    // const data = new FormData(event.currentTarget);
-    // setFormState({
-    //   ...formState,
-    //   email: data.get('email'),
-    //   password: data.get('password'),
-    //   name: data.get('userName'),
-    // })
 
 
 
@@ -221,44 +215,57 @@ export default function SignUp() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h4">
+            PicsGram
+          </Typography>
+          <Typography component="p" variant="p">
             Sign up to see photos and posts from your friends.
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate="" sx={{ mt: 0 }}>
+            <p>
+
+            </p>
+            <p></p>
+            <Typography>Full Name</Typography>
             <TextField
-              margin="normal"
               required
               error={error.userName.error}
               fullWidth
+              style = {{height: '30px'}}
               helperText={error.userName.helperText}
               name="userName"
-              label="Full Name"
+              placeholder="Full Name"
               onChange={userNameHandler}
               type="text"
               id="userName"
               autoComplete="name"
             />
+            <p></p>
+            <Typography>Email</Typography>
             <TextField
-              margin="normal"
+          
               required
               error={error.email.error}
               fullWidth
+            style = {{height: '30px'}}
               helperText={error.email.helperText}
               id="email"
               onChange={emailHandler}
-              label="Email Address"
+              placeholder="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
             />
+            <p></p>
+            <Typography>Password</Typography>
             <TextField
-              margin="normal"
+           
               required
               error={error.password.error}
               fullWidth
               helperText={error.password.helperText}
               name="password"
-              label="Password"
+              placeholder="Password"
               onChange={passwordHandler}
               type="password"
               id="password"

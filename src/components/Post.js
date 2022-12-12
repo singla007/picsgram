@@ -106,15 +106,15 @@ export default function Post(props) {
             <CardMedia
                 component="img"
                 height="200"
-                image="https://images.pexels.com/photos/251225/pexels-photo-251225.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                alt="post _image"
+                src={"http://localhost:3001/static"+post.imageUrl}
+                alt={post.createdBy ? post.createdBy.name.trim() : 'Unknown User'}
             />
             <CardContent>
                 <Typography variant="body2" color="text.secondary" textAlign={'left'}>
-                    {post.description}
+                    {post.caption}
                 </Typography>
                 <Typography textAlign={'left'} variant="body2" color="text.secondary">
-                    Description: {post.caption}
+                    Description: {post.description}
                 </Typography>
             </CardContent>
             <CardActions>

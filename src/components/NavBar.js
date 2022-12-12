@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from "react-router-dom";
 import { AUTH_TOKEN,APP_NAME } from './util/constants';
 
-const pages = ['News Feed', 'Top Feed', 'Create','Search'];
+const pages = ['New Feed', 'Top Feed', 'Create','Search'];
 const settings = ['Profile', 'Account', 'Logout'];
 
 
@@ -26,6 +26,17 @@ export default function NavBar() {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     let navigate = useNavigate();
+
+    const userName = ()=>{
+        let tempName = sessionStorage.getItem("userName") || "Unkown";
+        let words = tempName.split(" ");
+
+       words=  words.map((word) => { 
+            return word[0].toUpperCase() + word.substring(1); 
+        }).join(" ");
+        
+        return words;
+    }
 
     const logoutHandler = () => {
         localStorage.removeItem(AUTH_TOKEN);
@@ -59,7 +70,7 @@ export default function NavBar() {
     };
 
     return (
-        <AppBar position="static" style={{marginBottom:"10px"}}>
+        <AppBar position="static" color="success"  style={{marginBottom:"10px"}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -148,15 +159,23 @@ export default function NavBar() {
                         ))}
                     </Box>
                     {authToken ?
+                    <>
                     <Box sx={{ flexGrow: 0 }}>
-                        <Typography>Hi, {sessionStorage.getItem("userName")}</Typography>
-                        <Tooltip title="Logout from Yogeshgram">
-                            <Button onClick={logoutHandler} sx={{color: 'white', p: 0 }}>
+                        <Typography>Hi, {userName()} &nbsp;&nbsp; </Typography>
+                        
+                        
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        
+                        <Tooltip title="Logout from PicsGram">
+                            <Button onClick={logoutHandler} variant="contained" color="error">
                                 Log Out
                             </Button>
                         </Tooltip>
                         
-                    </Box>:""}
+                    </Box>
+                    </>
+                    :""}
                 </Toolbar>
             </Container>
         </AppBar> );

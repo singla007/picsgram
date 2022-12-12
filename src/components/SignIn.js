@@ -17,6 +17,7 @@ import Stack from '@mui/material/Stack';
 import { AUTH_TOKEN } from './util/constants';
 import { gql, useMutation } from "@apollo/client";
 import { useNavigate } from 'react-router-dom';
+import { Label } from '@mui/icons-material';
 
 const LOGIN_MUTATION = gql`
     mutation LoginMutation(
@@ -40,7 +41,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="/">
-        YogeshGram
+        PicsGram
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -151,10 +152,12 @@ export default function SignUp() {
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+      
         <Box
           sx={{
+            boxSizing:'none',
             marginTop: 8,
+            margin:"20px 20px",
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -164,30 +167,34 @@ export default function SignUp() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign In
+            Sign In for Picsgram
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{boxSizing:'none', mt: 1 }}>
+            <Typography>Email:</Typography> 
             <TextField
-              margin="normal"
+             
               required
               error ={error.email.error}
               fullWidth
               helperText={error.email.helperText}
               id="email"
               onChange={emailHandler}
-              label="Email Address"
+              placeholder="Email Address"
               name="email"
               autoComplete="email"
               autoFocus
             />
+            <div></div>
+            <p></p>
+            <Typography>Password:</Typography> 
             <TextField
-              margin="normal"
+            
               required
               error = {error.password.error}
               fullWidth
               helperText = {error.password.helperText}
               name="password"
-              label="Password"
+              placeholder="Password"
               onChange={passwordHandler}
               type="password"
               id="password"

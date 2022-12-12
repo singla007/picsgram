@@ -33,6 +33,7 @@ export const CREATE_POST_MUTATION = gql`
             createdAt
             caption
             description
+            imageUrl
             
         }
     }

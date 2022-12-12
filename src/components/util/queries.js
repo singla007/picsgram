@@ -6,6 +6,7 @@ export const NEW_POSTS_SUBSCRIPTION = gql`
             id
             caption
             description
+            imageUrl
             createdAt
             createdBy {
                 id
@@ -31,6 +32,7 @@ export const NEW_LIKES_SUBSCRIPTION = gql`
                 id
                 caption
                 description
+                imageUrl
                 createdAt
                 createdBy {
                     id
@@ -64,6 +66,7 @@ export const FEED_QUERY = gql`
                 createdAt
                 caption
                 description
+                imageUrl
                 createdBy {
                     id
                     name

@@ -9,17 +9,24 @@ import NavBar from './NavBar';
 const CreatePost = () => {
 
   const navigate = useNavigate();
+  const [file, setFile] = useState()
   const [formState, setFormState] = useState({
     description: '',
     caption: '',
     file: ''
   });
 console.log(formState)
+const onChange = ({
+    target: {
+      validity,
+      files: [file]
+    }
+  }) => validity.valid && setFile(file);
   const [CreatePost, { loading, error }] = useMutation(CREATE_POST_MUTATION, {
     variables: {
       description: formState.description,
       caption: formState.caption,
-      file: formState.file
+      file: file
     },
     update: (cache, { data: { createPost } }) => {
       const take = POSTS_PER_PAGE;
@@ -59,6 +66,7 @@ console.log(formState)
   return (
     <div>
       <NavBar />
+      
       <form encType={'multipart/form-data'}
         onSubmit={(e) => {
           e.preventDefault();
@@ -92,11 +100,7 @@ console.log(formState)
             type="text"
             placeholder="The description for the link"
           />
-          <input type="file" onChange={(e) =>{
-            setFormState({
-              ...formState,
-              file: e.target.files[0]
-            })}} />
+          <input type="file" required onChange={onChange}  />
         </div>
         <button type="submit">Submit</button>
       </form>

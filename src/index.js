@@ -19,11 +19,14 @@ import {
 } from '@apollo/client';
 import {AUTH_TOKEN} from "./components/util/constants";
 
-const httpLink = createUploadLink({
-  uri: 'http://localhost:4000',
-  headers: {
-    "keep-alive": "true"
-  }
+const uploadLink = createUploadLink({
+  uri: 'http://localhost:3001/graphql',
+  
+});
+
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3001/graphql',
+  
 });
 
 const authLink = setContext((_, {headers}) => {
@@ -37,7 +40,7 @@ const authLink = setContext((_, {headers}) => {
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000/graphql`,
+  uri: `ws://localhost:3001/graphql`,
   options: {
     reconnect: true,
     connectionParams: {
@@ -55,7 +58,7 @@ const link = split(
     );
   },
   wsLink,
-  authLink.concat(httpLink)
+  authLink.concat(uploadLink).concat(httpLink)
 );
 
 const client = new ApolloClient({

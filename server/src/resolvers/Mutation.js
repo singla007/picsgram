@@ -1,55 +1,42 @@
+const dotenv = require('dotenv/config');
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET } = require('../utils');
-const fs = require('fs')
-const path = require('path');
+const { createWriteStream } = require('fs')
+const { parse, join } = require("path");
 
 async function createPost(parent, args, context, info) {
   const { userId } = context;
-
-  const { createReadStream, filename, encoding, mimetype } = await args?.file;
 
   let createdBy = undefined
   if (userId) {
     createdBy = { connect: { id: userId } }
   }
+  const { createReadStream, filename } = await args.file;
+  const stream = createReadStream();
+  var { ext, name } = parse(filename);
+  name = `single${Math.floor((Math.random() * 10000) + 1)}`;
+  let url = join(__dirname, `../Upload/${name}-${Date.now()}${ext}`);
+  const imageStream = await createWriteStream(url)
+  await stream.pipe(imageStream);
+  const baseUrl = process.env.BASE_URL || 'http:localhost:'
+  const port = process.env.PORT || '3001'
+  tempurl = `${baseUrl}${port}${url.split('Upload')[1]}`;
 
-
-  // Handling file to upload 
-
-  console.log("in create post mutation to HANDLE FILE ")
-  
-  const temppath =  `./${filename}`;
-
-  console.log(filename)
-  console.log(mimetype)
-  console.log(temppath)
-  filestream = createReadStream()
-  // fileStream.setEncoding('utf-8');
-
-  // createReadStream().pipe(fs.createWriteStream(temppath));
-  //const readStream = fs.createReadStream('hello.txt');
-  const writeStream = fs.createWriteStream(temppath);
-  
-  fileStream.pipe(writeStream);
-  // fileStream.on('error', function (err) {
-  //   console.log(err);
-  // })
-  writeStream.on('end', () => {
-    console.log('Data written to output.txt');
-  });
-  
+  imageUrl = url.split('Upload')[1] || "/default.jpg"
 
   const newPost = await context.prisma.post.create({
     data: {
       caption: args.caption,
       description: args.description,
       createdBy,
+      imageUrl
       // filename: filename,
       // filetype:mimetype,
       // path: temppath,
     }
-    
+
   });
 
   context.pubsub.publish('NEW_POST', newPost); //publishing a new post with caption description and id all other fields are set after in feed query data resolve
@@ -76,14 +63,14 @@ async function signup(parent, args, context, info) {
 }
 
 async function login(parent, args, context, info) {
-  
+
   const user = await context.prisma.user.findUnique({
     where: { email: args.email }
   });
   if (!user) {
     throw new Error('user not found with given email id');
   }
- 
+
   const valid = await bcrypt.compare(
     args.password,
     user.password
@@ -110,7 +97,7 @@ async function like(parent, args, context, info) {
       }
     }
   });
-  
+
   if (Boolean(like)) {
     throw new Error(
       `Already Liked for Post: ${args.postId}`
