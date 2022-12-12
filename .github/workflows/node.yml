@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build1:
    
     runs-on: self-hosted
     env:
@@ -24,7 +24,25 @@ jobs:
       - run: npm run build --if-present
       - run: npm install -g serve
       - run: serve -s build
+      
+  build2:
+   
+    runs-on: self-hosted
+    env:
+         CI: false
+    strategy:
+      matrix:
+        node-version: [14.x]
+        
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
       - run: cd server
       - run: npm i
       - run: npm run build --if-present
       - run: serve -s build
+
