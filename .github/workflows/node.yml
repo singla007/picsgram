@@ -25,7 +25,7 @@ jobs:
       - run: cd ..
       - run: npm i
 #       - run: npm run build --if-present
-      - run: npm run start
+      - run: npm run start --port 8000
 #       - run: npm install -g serve
 #       - run: serve -s build
       
