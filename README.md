@@ -38,7 +38,7 @@ You can now open your browser and use the app on [http://localhost:3000](http://
 
 ### 4. Edit the database schema optional for clean experience
 
-Go to the `server/prisma` folder. 1st command to make migartions and it will make sql file in migrations folder, 2nd command is ued for executing the given change in schema.prisma file:
+Go to the `server/prisma` folder. 1st command to make migartions and it will make sql file in migrations folder, 2nd command is ued for executing the given changes in schema.prisma file:
 
 sh
 npx prisma migrate dev --name rename-migration --create-only

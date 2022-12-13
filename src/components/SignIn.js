@@ -92,7 +92,7 @@ export default function SignUp() {
         error:false,
         helperText:""
       } });
-      if(formState.email.length != 0 && formState.password.length != 0 || !error.password.error ){
+      if(formState.email.length !== 0 && formState.password.length !== 0 || !error.password.error ){
         setButtonStatus(false)
       }
     }
@@ -115,7 +115,7 @@ export default function SignUp() {
         error:false,
         helperText:""
       } });
-      if(formState.email.length != 0 && formState.password.length != 0 || !error.email.error ){
+      if(formState.email.length !== 0 && formState.password.length !== 0 || !error.email.error ){
         setButtonStatus(false)
       }
     }
